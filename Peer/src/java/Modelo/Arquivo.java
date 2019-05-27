@@ -1,9 +1,9 @@
 package Modelo;
 
+import controle.TorrentFilesManage;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import Controle.TorrentFilesManage;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -26,7 +26,7 @@ public class Arquivo {
         this.nome           = file.getName();
         this.tamanhoArquivo = file.length() / 1024 + 1;
         this.tamanhoVetor   = (int) file.length();
-        this.hashArquivo    = new TorrentFilesManage().getHashCode(new TorrentFilesManage().CreateFullArrayFromFile(file));
+        this.hashArquivo    = new TorrentFilesManage().getHashCode(new TorrentFilesManage().createFullArrayFromFile(file));
     }
     
 }

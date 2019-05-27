@@ -32,7 +32,8 @@ import java.net.*;
 public class Peer {
     
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException{
-        runSystemCommand("ping 10.53.0.13");
+        participar();
+        //runSystemCommand("ping 10.53.0.13");
         /*try {
        InetAddress address = InetAddress.getByName("101.153.0.17");
        System.out.println("Name: " + address.getHostName());
@@ -46,12 +47,6 @@ public class Peer {
        System.err.println("Unable to reach web.mit.edu");
      }*/
     }
-
-
-
-
-        //runSystemCommand("ping 10.0.0.103");
-        //participar();
     
     public static void participar() throws UnknownHostException, IOException, NoSuchAlgorithmException{
         String ip = InetAddress.getLocalHost().getHostAddress();
@@ -61,7 +56,7 @@ public class Peer {
         
         System.out.println(jsonPeer);
         
-        String url = "http://localhost:8080/ThorEnt/webresources/tracker/participar";
+        String url = "http://localhost:8080/Tracker/webresources/tracker/participar";
         
         Conexao.conectaWSPP(url, jsonPeer, "POST");
     }
