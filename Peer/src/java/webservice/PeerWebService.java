@@ -73,7 +73,9 @@ public class PeerWebService {
             listaArquivos.add(arquivo);
         }
         
-        return new Gson().toJson(listaArquivos);
-        
+        return new Gson().toJson(listaArquivos);   
     }
+    
+    
+    
 }

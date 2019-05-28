@@ -5,10 +5,12 @@
  */
 package DAO;
 
-import controle.ConexaoBD;
+
+import controle.Banco;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import modelo.Peer;
 
 /**
@@ -26,7 +28,7 @@ public class TrackerDAO {
         try{
             if(!verificaIp(peer.getIp())){
                 sql               = "insert into peer (ip) values (?)";
-                preparedStatement = ConexaoBD.getPreparedStatement(sql);
+                preparedStatement = Banco.getPreparedStatement(sql);
                 preparedStatement.setString(1, peer.getIp());
                 if(preparedStatement.executeUpdate() > 0){
                     retorno = inserirArquivo(peer);
@@ -43,7 +45,7 @@ public class TrackerDAO {
     
     private boolean verificaIp(String ip){
         sql               = "select ip from peer where ip = ?";
-        preparedStatement = ConexaoBD.getPreparedStatement(sql);
+        preparedStatement = Banco.getPreparedStatement(sql);
         try{
             preparedStatement.setString(1, ip);
             resulSet = preparedStatement.executeQuery();
@@ -60,7 +62,7 @@ public class TrackerDAO {
     
     private boolean atualizaListaArquivos(Peer peer){
         sql               = "delete from arquivo where ip = ?";
-        preparedStatement = ConexaoBD.getPreparedStatement(sql);
+        preparedStatement = Banco.getPreparedStatement(sql);
         try{
             preparedStatement.setString(1, peer.getIp());
             if(preparedStatement.executeUpdate()> 0){
@@ -76,7 +78,7 @@ public class TrackerDAO {
     private boolean inserirArquivo(Peer peer){
         for(int i = 0; i < peer.getArquivos().size(); i++){
             sql = "insert into arquivo (hashArquivo, nome, tamanhoArquivo, tamanhoVetor, ip) values (?, ?, ?, ?, ?)";
-            preparedStatement = ConexaoBD.getPreparedStatement(sql);
+            preparedStatement = Banco.getPreparedStatement(sql);
             try{
                 preparedStatement.setString(1, peer.getArquivos().get(i).getHashArquivo());
                 preparedStatement.setString(2, peer.getArquivos().get(i).getNome());
@@ -93,6 +95,12 @@ public class TrackerDAO {
             }
         }
         return retorno;
+    }
+    
+    private List<String> listarHash(){
+        sql = "select distint hashArquivo from Arquivo";
+        //0preparedStatement.
+        return null;
     }
     
 }

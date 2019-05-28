@@ -6,23 +6,14 @@
 package aplicacao;
 
 import Modelo.PeerModelo;
-import static com.google.common.base.CharMatcher.is;
 import com.google.gson.Gson;
-import static com.sun.org.apache.xerces.internal.util.FeatureState.is;
-import static com.sun.org.apache.xerces.internal.util.PropertyState.is;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.net.InetAddress;
-import java.net.Socket;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
-import servidor.Conexao;
-import static sun.nio.cs.Surrogate.is;
-import java.io.*;
-import java.net.*;
+import controle.Conexao;
 
 /**
  *

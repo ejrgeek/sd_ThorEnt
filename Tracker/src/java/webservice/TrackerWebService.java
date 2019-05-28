@@ -66,4 +66,12 @@ public class TrackerWebService {
             return false;
         }
     }
+    
+    @Path("/listar")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String listar(){
+        
+        return null;
+    }    
 }
