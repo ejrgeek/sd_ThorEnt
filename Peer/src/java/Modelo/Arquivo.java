@@ -4,6 +4,7 @@ import controle.TorrentFilesManage;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,10 +18,11 @@ import java.security.NoSuchAlgorithmException;
  */
 public class Arquivo {
     
-    private String       nome;
-    private double       tamanhoArquivo;
-    private int          tamanhoVetor;
-    private String       hashArquivo;
+    private String           nome;
+    private double           tamanhoArquivo;
+    private int              tamanhoVetor;
+    private String           hashArquivo;
+    private List<PeerModelo> peers;
     
     public Arquivo(File file) throws IOException, NoSuchAlgorithmException{
         this.nome           = file.getName();
