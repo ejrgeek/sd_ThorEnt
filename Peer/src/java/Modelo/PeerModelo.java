@@ -34,8 +34,10 @@ public class PeerModelo {
         File[] arquivos = diretorio.listFiles();
         
         for(int i = 0; i < arquivos.length; i++){
-            Arquivo arquivo = new Arquivo(arquivos[i]);
-            listaArquivos.add(arquivo);
+            if(!arquivos[i].isDirectory()){
+                Arquivo arquivo = new Arquivo(arquivos[i]);
+                listaArquivos.add(arquivo);
+            }
         }
         
         return listaArquivos;

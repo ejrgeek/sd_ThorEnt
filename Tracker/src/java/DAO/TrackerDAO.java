@@ -29,6 +29,7 @@ public class TrackerDAO {
     public boolean inserirPeer(Peer peer){
         try{
             if(!verificaIp(peer.getIp())){
+                System.out.println("Novo ip... Criando lista de arquivos");
                 sql               = "insert into peer (ip) values (?)";
                 preparedStatement = Banco.getPreparedStatement(sql);
                 preparedStatement.setString(1, peer.getIp());
@@ -36,6 +37,7 @@ public class TrackerDAO {
                     retorno = inserirArquivo(peer);
                 }
             }else{
+                System.out.println("Ip já registrado... Atualizar lista de arquivos");
                 retorno = atualizaListaArquivos(peer);
             }
         }catch(SQLException erro){
@@ -67,7 +69,9 @@ public class TrackerDAO {
         preparedStatement = Banco.getPreparedStatement(sql);
         try{
             preparedStatement.setString(1, peer.getIp());
-            if(preparedStatement.executeUpdate()> 0){
+            System.out.println("Atualizando lista de arquivos...");
+            if(preparedStatement.executeUpdate() >= 0){
+                System.out.println("Inserindo arquivos na lista");
                 retorno = inserirArquivo(peer);
             }
         }catch(SQLException erro){
@@ -96,6 +100,7 @@ public class TrackerDAO {
                 break;
             }
         }
+        System.out.println("Arquivos inseridos na lista.");
         return retorno;
     }
     

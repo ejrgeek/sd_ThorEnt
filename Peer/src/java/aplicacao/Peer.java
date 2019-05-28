@@ -42,16 +42,20 @@ public class Peer {
     
     public static void participar() throws UnknownHostException, IOException, NoSuchAlgorithmException{
         new File("C:\\ThorEnt").mkdir();
-        String ip = InetAddress.getLocalHost().getHostAddress();
-        PeerModelo peer = new PeerModelo();
-        peer = new PeerModelo(ip, peer.setArquivos());
-        String jsonPeer = new Gson().toJson(peer);
-        
-        System.out.println(jsonPeer);
-        
-        String url = "http://localhost:8080/Tracker/webresources/tracker/participar";
-        
-        Conexao.conectaWSPP(url, jsonPeer, "POST");
+        try{
+            String ip = InetAddress.getLocalHost().getHostAddress();
+            PeerModelo peer = new PeerModelo();
+            peer = new PeerModelo(ip, peer.setArquivos());
+            String jsonPeer = new Gson().toJson(peer);
+
+            System.out.println(jsonPeer);
+
+            String url = "http://localhost:8080/Tracker/webresources/tracker/participar";
+
+            Conexao.conectaWSPP(url, jsonPeer, "POST");
+        }catch(Exception erro){
+            System.out.println("Participar: " + erro.getMessage());
+        }
     }
     
     public static void ping(String ipAddress)throws UnknownHostException, IOException{ 
