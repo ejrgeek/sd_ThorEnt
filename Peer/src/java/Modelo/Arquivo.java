@@ -29,4 +29,8 @@ public class Arquivo {
         this.hashArquivo    = new TorrentFilesManage().getHashCode(new TorrentFilesManage().createFullArrayFromFile(file));
     }
     
+    public String getNome(){
+        return nome;
+    }
+    
 }

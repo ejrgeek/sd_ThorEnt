@@ -14,6 +14,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import controle.Conexao;
+import java.io.File;
 
 /**
  *
@@ -40,6 +41,7 @@ public class Peer {
     }
     
     public static void participar() throws UnknownHostException, IOException, NoSuchAlgorithmException{
+        new File("C:\\ThorEnt").mkdir();
         String ip = InetAddress.getLocalHost().getHostAddress();
         PeerModelo peer = new PeerModelo();
         peer = new PeerModelo(ip, peer.setArquivos());

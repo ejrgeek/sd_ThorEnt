@@ -10,7 +10,9 @@ import controle.Banco;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import modelo.Arquivo;
 import modelo.Peer;
 
 /**
@@ -21,7 +23,7 @@ public class TrackerDAO {
     
     private String            sql;
     private PreparedStatement preparedStatement;
-    private ResultSet         resulSet;
+    private ResultSet         resultSet;
     private boolean           retorno;
     
     public boolean inserirPeer(Peer peer){
@@ -48,8 +50,8 @@ public class TrackerDAO {
         preparedStatement = Banco.getPreparedStatement(sql);
         try{
             preparedStatement.setString(1, ip);
-            resulSet = preparedStatement.executeQuery();
-            if(resulSet.next()){
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
                 return true;
             }else{
                 return false;
@@ -97,10 +99,65 @@ public class TrackerDAO {
         return retorno;
     }
     
+    public List<Arquivo> listarArquivo(){
+        List<String> hashs = new ArrayList<>();
+        hashs = listarHash();
+        List<Arquivo> arquivos = new ArrayList<>();
+        try{
+            for(int i = 0; i < hashs.size(); i++){
+                sql = "select * from arquivo where hashArquivo = ?";
+                preparedStatement = Banco.getPreparedStatement(sql);
+                try{
+                    preparedStatement.setString(1, hashs.get(i));
+                    resultSet = preparedStatement.executeQuery();
+                    List<String> peers = new ArrayList<>();
+                    while(resultSet.next()){
+                        peers.add(resultSet.getString("ip"));
+                    }
+                    
+                    resultSet.previous();
+                    Arquivo arquivo = new Arquivo();
+                    arquivo.setHashArquivo   (resultSet.getString("hashArquivo"));
+                    arquivo.setNome          (resultSet.getString("nome"));
+                    arquivo.setTamanhoArquivo(resultSet.getDouble("tamanhoArquivo"));
+                    arquivo.setTamanhoVetor  (resultSet.getInt   ("tamanhoVetor"));
+                    arquivo.setPeers         (peers);
+
+                    arquivos.add(arquivo);
+
+                }catch(SQLException erro){
+                    System.out.println("Lista Arquivos: " + erro.getMessage());
+                }
+            }
+            return arquivos;
+        }catch(Exception erro){
+            System.out.println("Lista Arquivos(for): " + erro.getMessage());
+            return null;
+        }
+    }
+    
     private List<String> listarHash(){
-        sql = "select distint hashArquivo from Arquivo";
-        //0preparedStatement.
-        return null;
+        List<String> hashs = new ArrayList<>();
+        sql = "select distinct hashArquivo from Arquivo";
+        preparedStatement = Banco.getPreparedStatement(sql);
+        try{
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                hashs.add(resultSet.getString("hashArquivo"));
+            }
+            return hashs;
+        }catch(SQLException erro){
+            System.out.println("Lista Hashs: " + erro.getMessage());
+            return null;
+        }
+    }
+    
+    private List<String> listarIp(ResultSet resultSet) throws SQLException{
+        List<String> peers = new ArrayList<>();
+        while(resultSet.next()){
+            peers.add(resultSet.getString("ip"));
+        }
+        return peers;
     }
     
 }

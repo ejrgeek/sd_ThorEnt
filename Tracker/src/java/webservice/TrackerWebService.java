@@ -71,7 +71,6 @@ public class TrackerWebService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String listar(){
-        
-        return null;
+        return new Gson().toJson(new TrackerDAO().listarArquivo());
     }    
 }
