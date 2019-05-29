@@ -27,7 +27,7 @@ public class PeerModelo {
         this.arquivos = arquivos;
     }
     
-    public List<Arquivo> setArquivos() throws IOException, NoSuchAlgorithmException{
+    public List<Arquivo> getArquivos() throws IOException, NoSuchAlgorithmException{
         List<Arquivo> listaArquivos = new ArrayList<>();
         
         File diretorio = new File("C:\\ThorEnt");

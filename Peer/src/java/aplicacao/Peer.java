@@ -45,7 +45,7 @@ public class Peer {
         try{
             String ip = InetAddress.getLocalHost().getHostAddress();
             PeerModelo peer = new PeerModelo();
-            peer = new PeerModelo(ip, peer.setArquivos());
+            peer = new PeerModelo(ip, peer.getArquivos());
             String jsonPeer = new Gson().toJson(peer);
 
             System.out.println(jsonPeer);

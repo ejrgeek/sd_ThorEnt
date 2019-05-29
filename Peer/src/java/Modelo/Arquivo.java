@@ -1,6 +1,6 @@
 package Modelo;
 
-import controle.TorrentFilesManage;
+import Controle.TorrentFilesManage;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -31,8 +31,18 @@ public class Arquivo {
         this.hashArquivo    = new TorrentFilesManage().getHashCode(new TorrentFilesManage().createFullArrayFromFile(file));
     }
     
+    public Arquivo(){}
+    
     public String getNome(){
         return nome;
+    }
+    
+    public String getHashArquivo() {
+        return hashArquivo;
+    }
+
+    public double getTamanhoArquivo() {
+        return tamanhoArquivo;
     }
     
 }
