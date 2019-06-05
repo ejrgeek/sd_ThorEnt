@@ -165,4 +165,43 @@ public class TrackerDAO {
         return peers;
     }
     
+    public List<String> listarPeer(){
+        List<String> listaPeers = new ArrayList<>();
+        sql = "select * from peer";
+        preparedStatement = Banco.getPreparedStatement(sql);
+        try{
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                String peer = resultSet.getString("ip");
+                listaPeers.add(peer);
+            }
+            return listaPeers;
+        }catch(SQLException erro){
+            System.out.println("Listar Peer: " + erro.getMessage());
+            return null;
+        }
+    }
+    
+    public boolean deletaPeer(String ip){
+        sql = "delete from peer where ip = ?";
+        preparedStatement = Banco.getPreparedStatement(sql);
+        try{
+            preparedStatement.setString(1, ip);
+            return preparedStatement.execute();
+        }catch(SQLException erro){
+            System.out.println("Deletar Peer: " + erro.getMessage());
+            return false;
+        }
+    }
+    
+    public boolean limparPeer(){
+        sql = "delete from peer where ip != '-1'";
+        preparedStatement = Banco.getPreparedStatement(sql);
+        try{
+            return preparedStatement.executeUpdate()> 0;
+        }catch(SQLException erro){
+            System.out.println("Deletar Peer: " + erro.getMessage());
+            return false;
+        }
+    }
 }
