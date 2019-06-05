@@ -1,12 +1,14 @@
+package Controle;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controle;
 
 import com.sun.istack.internal.Nullable;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -20,13 +22,32 @@ public class Conexao {
     private static OutputStreamWriter outputStreamWriter;
     private static InputStream        inputStream;
     private static BufferedReader     reader;
-    private static String             linha, parametroLength;
+    private static String             linha, parametroLength, retorno;
     private static StringBuffer       resposta;
+    
+    public static final String IP_TRACKER = "192.168.43.220";
+    
+    public String conectaWebService(String url, String parametro, String metodo){
+        if(metodo.equals("GET") || metodo.equals("DELETE")){
+            retorno = conectaWSGD(url, metodo);
+        }
+        if(metodo.equals("POST") || metodo.equals("PUT")){
+            retorno = conectaWSPP(url, parametro, metodo);
+        }
+        return retorno;
+    }
 
     //PARA CONEXOES GET E DELETE
     @Nullable
-    public static String conectaWSGD(String urlUsuario, String metodo){
+    private String conectaWSGD(String urlUsuario, String metodo){
         try{
+              URL                url;
+              HttpURLConnection  connection;
+             OutputStreamWriter outputStreamWriter;
+             InputStream        inputStream;
+             BufferedReader     reader;
+             String             linha, parametroLength, retorno;
+             StringBuffer       resposta;
             url = new URL(urlUsuario);
             connection = (HttpURLConnection) url.openConnection();
 
@@ -50,6 +71,7 @@ public class Conexao {
             }
 
             if(resposta.length() == 0){
+                connection.disconnect();
                 return null;
             }else {
 
@@ -64,7 +86,7 @@ public class Conexao {
                 return resposta.toString();
             }
 
-        }catch (Exception erro){
+        }catch (IOException erro){
             System.out.println("Conexao - Get:\n" + erro.getMessage());
             return null;
         }
@@ -72,7 +94,7 @@ public class Conexao {
 
     //PARA CONEXOES POST E PUT
     @Nullable
-    public static String conectaWSPP(String urlUsuario, String parametro, String metodo){
+    private String conectaWSPP(String urlUsuario, String parametro, String metodo){
         try{
             url = new URL(urlUsuario);
             connection = (HttpURLConnection) url.openConnection();

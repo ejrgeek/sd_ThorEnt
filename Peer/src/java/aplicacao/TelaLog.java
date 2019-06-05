@@ -30,7 +30,7 @@ public class TelaLog extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        logArea = new javax.swing.JTextArea();
 
         jPanel1.setBackground(new java.awt.Color(0, 20, 10));
         jPanel1.setPreferredSize(new java.awt.Dimension(391, 420));
@@ -40,12 +40,13 @@ public class TelaLog extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Log do sistema:");
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setBackground(new java.awt.Color(0, 206, 149));
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        logArea.setEditable(false);
+        logArea.setBackground(new java.awt.Color(0, 206, 149));
+        logArea.setColumns(20);
+        logArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        logArea.setRows(5);
+        logArea.setBorder(null);
+        jScrollPane1.setViewportView(logArea);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -82,6 +83,6 @@ public class TelaLog extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    public javax.swing.JTextArea logArea;
     // End of variables declaration//GEN-END:variables
 }

@@ -153,7 +153,7 @@
                   <Font name="Agency FB" size="48" style="1"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="T H O R . R E N T"/>
+                <Property name="text" type="java.lang.String" value="T H O R . E N T"/>
               </Properties>
             </Component>
           </SubComponents>

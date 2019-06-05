@@ -22,7 +22,7 @@ public class Arquivo {
     private double           tamanhoArquivo;
     private int              tamanhoVetor;
     private String           hashArquivo;
-    private List<PeerModelo> peers;
+    private List<String>     peers;
     
     public Arquivo(File file) throws IOException, NoSuchAlgorithmException{
         this.nome           = file.getName();
@@ -45,4 +45,11 @@ public class Arquivo {
         return tamanhoArquivo;
     }
     
+    public List<String> getPeer(){
+        return peers;
+    }
+    
+    public int getTamanhoVetor(){
+        return tamanhoVetor;
+    }
 }

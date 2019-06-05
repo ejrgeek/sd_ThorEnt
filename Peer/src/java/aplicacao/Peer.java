@@ -13,7 +13,8 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
-import controle.Conexao;
+import Controle.Conexao;
+import Controle.TorrentFilesManage;
 import java.io.File;
 
 /**
@@ -24,7 +25,40 @@ import java.io.File;
 public class Peer {
     
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException{
-        participar();
+        
+        File file = new File("C:\\ThorRent\\cod.txt");
+        byte[] vetor_arquivo = new TorrentFilesManage().createFullArrayFromFile(file);
+        
+        for(int i = 0; i < vetor_arquivo.length; i++){
+            System.out.print(vetor_arquivo[i] + ", ");
+        }
+        
+        /*InetAddress localhost = InetAddress.getLocalHost();
+        //System.out.println(InetAddress.getLocalHost());
+        // uso de IPv4 e assumido!
+        byte[] ip = localhost.getAddress();
+        /*System.out.println(localhost.getAddress());
+        for(int i = 0; i < ip.length; i++){
+            System.out.println(ip[i]);
+        }*/
+        
+        /*byte[] ip2 = {(byte)10,(byte) 0,(byte) 1,(byte) 1};
+
+        for (int i = 190; i <= 254; i++) {
+            ip2[3] = (byte) i;
+            InetAddress address = InetAddress.getByAddress(ip2);
+            System.out.println(InetAddress.getByAddress(ip2));
+            if (address.isReachable(1000)) {
+                System.out.println(address + " maquina esta ligada e pode ser pingada");
+            } else if (!address.getHostAddress().equals(address.getHostName())) {
+                System.out.println(address + " maquina reconhecida por um DNSLookup");
+            } else {
+                System.out.println(address + " o endereço de host e o nome do host são iguais, o host name não pode ser resolvido.");
+            }
+        }*/
+        
+        
+        //participar();
         //runSystemCommand("ping 10.53.0.13");
         /*try {
        InetAddress address = InetAddress.getByName("101.153.0.17");
@@ -52,7 +86,7 @@ public class Peer {
 
             String url = "http://localhost:8080/Tracker/webresources/tracker/participar";
 
-            Conexao.conectaWSPP(url, jsonPeer, "POST");
+            new Conexao().conectaWebService(url, jsonPeer, "POST");
         }catch(Exception erro){
             System.out.println("Participar: " + erro.getMessage());
         }

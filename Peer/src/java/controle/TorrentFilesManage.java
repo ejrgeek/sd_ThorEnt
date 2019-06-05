@@ -6,14 +6,18 @@
 package Controle;
 
 import Modelo.Arquivo;
+import Modelo.ArquivoDownload;
 import Modelo.DownloadFile;
+import Modelo.Listas;
 import Modelo.PeerModelo;
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -29,6 +33,8 @@ import static javax.swing.text.html.FormSubmitEvent.MethodType.POST;
  * @author Raphael Felipe
  */
 public class TorrentFilesManage {
+    
+    public static final int TAMANHO_BLOCO = 1000;
 
     /**
      *
@@ -59,7 +65,7 @@ public class TorrentFilesManage {
      * 
      *<b>Autor: Raphael Felipe.</b><br><br>
      *<b>DESCRIÇÂO:</b><br>
-     *  Faz uma varredura na pasta de arquivos e compara o hash de cada um<br>
+  Faz uma varredura na pasta de LISTA_ARQUIVOS e compara o hash de cada um<br>
      *  com o hash informado no parâmetro.
      *<br><br>
      *<b>PARÂMETROS:</b><br>
@@ -74,14 +80,12 @@ public class TorrentFilesManage {
      */
     public File getFileByHash(String hash) throws IOException, NoSuchAlgorithmException{
         
-        File diretorio = new File("C:\\ThorEnt");
-        File[] arquivos = diretorio.listFiles();
-        
-        for(int i = 0; i < arquivos.length; i++){
-            if(!arquivos[i].isDirectory()){
-                if( hash.equals(getHashCode(createFullArrayFromFile(arquivos[i]))) )
-                   return arquivos[i];
+        for(int i = 0; i < Listas.LISTA_ARQUIVOS.size(); i++){
+            if( hash.equals(Listas.LISTA_ARQUIVOS.get(i).getHashArquivo()) ){
+                File file = new File("C:\\ThorEnt\\"+Listas.LISTA_ARQUIVOS.get(i).getNome());
+                return file;
             }
+               
         }
         
         return null;
@@ -94,31 +98,16 @@ public class TorrentFilesManage {
      *  Gera um HashCode MD5 do array de bytes.
      *<br><br> 
      *<b>PARÂMETROS:</b><br>
-     *<i>  String fileName</i> : Nome ou Diretório do arquivo vazio(novo).<br>
+     *<i>  String dir</i> : Diretório onde o arquivo será salvo.<br>
      *<i>  byte[] fileBytes</i> : Array de bytes necessários para montar um arquivo.<br> 
      *
      * @throws java.io.FileNotFoundException
      * @throws java.io.IOException
      */
-    public void createFileFromByteArray(String fileName, byte[] fileBytes) throws FileNotFoundException, IOException{
-        FileOutputStream fullArray = new FileOutputStream(fileName);
+    public void createFileFromByteArray(String dir, byte[] fileBytes) throws FileNotFoundException, IOException{
+        FileOutputStream fullArray = new FileOutputStream(dir);
         fullArray.write(fileBytes);
-    }
-    /**
-     *<b>Autor: Raphael Felipe.</b><br><br>
-     *<b>DESCRIÇÂO:</b><br>
-     *  Gera um HashCode MD5 do array de bytes.
-     *<br><br> 
-     *<b>PARÂMETROS:</b><br>
-     *<i>   String fileName</i> : Arquivo vazio (novo) que conterá as informações do Array.<br>
-     *<i>   byte[] fileBytes</i> : Array de bytes necessarios para montar um arquivo.<br> 
-     *
-     * @throws java.io.FileNotFoundException
-     * @throws java.io.IOException
-     */    
-    public void createFileFromByteArray(File fileName, byte[] fileBytes) throws FileNotFoundException, IOException{
-        FileOutputStream fullArray = new FileOutputStream(fileName);
-        fullArray.write(fileBytes);
+        fullArray.close();
     }
     
     /**
@@ -142,7 +131,7 @@ public class TorrentFilesManage {
         
         FileInputStream in = new FileInputStream(file);
         in.read(fullArray);
-        
+        in.close();
         return fullArray;
     }
     /**
@@ -159,16 +148,17 @@ public class TorrentFilesManage {
      * @throws java.io.FileNotFoundException
      * @throws java.io.IOException
      */   
-    public byte[] createFullArrayFromFile(File fileName) throws FileNotFoundException, IOException{
+    public byte[] createFullArrayFromFile(File fileName) throws FileNotFoundException, IOException, NoSuchAlgorithmException{
+        
         File file = fileName;
         int lengthFullArray = (int) file.length();
         byte[] fullArray = new byte[lengthFullArray];
         
         FileInputStream in = new FileInputStream(file);
         in.read(fullArray);
-        
+        in.close();
         return fullArray;
-    }    
+    } 
     
     /**
      *<b>Autor: Raphael Felipe.</b><br><br>
@@ -187,7 +177,7 @@ public class TorrentFilesManage {
      * @throws java.io.FileNotFoundException
      * @throws java.io.IOException
      */ 
-    public byte[] createPackArrayFromFile(String fileName, int startIndex, int endIndex) throws FileNotFoundException, IOException{
+    public byte[] createPackArrayFromFile(String fileName, int startIndex, int endIndex) throws FileNotFoundException, IOException, NoSuchAlgorithmException{
         File file = new File(fileName);
         int lengthFullArray = (int) file.length();
         int lengthPackArray = (int) (endIndex - startIndex) + 1;
@@ -203,6 +193,7 @@ public class TorrentFilesManage {
             packArray[i] = fullArray[x];
             x++;
         }
+        in.close();
         return packArray;
     }
 
@@ -223,7 +214,7 @@ public class TorrentFilesManage {
      * @throws java.io.FileNotFoundException
      * @throws java.io.IOException
      */ 
-    public byte[] createPackArrayFromFile(File fileName, int startIndex, int endIndex) throws FileNotFoundException, IOException{
+    public byte[] createPackArrayFromFile(File fileName, int startIndex, int endIndex) throws FileNotFoundException, IOException, NoSuchAlgorithmException{
         File file = fileName;
         int lengthFullArray = (int) file.length();
         int lengthPackArray = (int) (endIndex - startIndex) + 1;
@@ -239,40 +230,13 @@ public class TorrentFilesManage {
             packArray[i] = fullArray[x];
             x++;
         }
+        in.close();
         return packArray;
     }    
     
-    /*public byte[] createPackArrayFromFile(File fileName, int partsNumber) throws FileNotFoundException, IOException{
-        File file = fileName;
-        int lengthFullArray = (int) file.length();
-        int lengthPackArray = lengthFullArray / partsNumber;
-        int restSize = lengthFullArray % partsNumber;
-        byte[] fullArray = createFullArrayFromFile(file);
-        
-        FileInputStream in = new FileInputStream(file);
-        in.read(fullArray);
-        
-        int x = partsSize*(part+1);
-        byte[] packArray = new byte[lengthPackArray];
-        
-        for(int i = 0; i < lengthPackArray; i++){
-            packArray[i] = fullArray[x];
-            x++;
-        }
-        return packArray;
-    }      
-    
-    public byte[][] createPacksFromFile(String fileName, int peersNumber, int partsSize){
-        File file = new File(fileName);
-        
-    }*/
-    
-    //essa bagaça vai ser acessada pelo webservice
-    //@Path("sendBytesArchive/{hash}")
-    //@GET
     public String downloadBytesFile(String params) throws IOException, NoSuchAlgorithmException{
         Gson gson = new Gson();
-        //DownloadFile df = gson.fromJson(params, DownloadFile.class);
+        
         File toDownload = getFileByHash(params);
         if(toDownload != null){
             return new Gson().toJson(createFullArrayFromFile(toDownload));//servidor retorna esse array via post
@@ -282,28 +246,34 @@ public class TorrentFilesManage {
         }//ou retorna null se o arquivo não for encontrado
     }
     
-    public static List<Arquivo> participar() throws UnknownHostException, IOException, NoSuchAlgorithmException{
-        List<Arquivo> arquivos = new ArrayList<>();
+    public List<Arquivo> participar(String ipTracker) throws UnknownHostException, IOException, NoSuchAlgorithmException{
+        Listas.LISTA_ARQUIVOS = new ArrayList<>();
         
         new File("C:\\ThorEnt").mkdir();
         try{
             String ip = InetAddress.getLocalHost().getHostAddress();
             PeerModelo peer = new PeerModelo();
-            arquivos = peer.getArquivos();
-            peer = new PeerModelo(ip, arquivos);
+            Listas.LISTA_ARQUIVOS = peer.getArquivos();
+            peer = new PeerModelo(ip, Listas.LISTA_ARQUIVOS);
             String jsonPeer = new Gson().toJson(peer);
 
-            System.out.println(jsonPeer);
+            String url = "http://"+ipTracker+":8080/Tracker/webresources/tracker/participar";
 
-            String url = "http://localhost:8080/Tracker/webresources/tracker/participar";
-
-            controle.Conexao.conectaWSPP(url, jsonPeer, "POST");
+            new Conexao().conectaWebService(url, jsonPeer, "POST");
             
-            return arquivos;
+            return Listas.LISTA_ARQUIVOS;
         }catch(Exception erro){
             System.out.println("Participar: " + erro.getMessage());
             return null;
         }
+    }
+    
+    public List<Arquivo> getTrackerList(String ipTracker){
+        List<Arquivo> listaArquivo = new ArrayList<>();
+        Type listTypeArquivo = new TypeToken<ArrayList<Arquivo>>(){}.getType(); 
+        String url = "http://"+ipTracker+":8080/Tracker/webresources/tracker/listar";
+        listaArquivo = new Gson().fromJson(new Conexao().conectaWebService(url, null, "GET"), listTypeArquivo);
+        return listaArquivo;
     }
     
 }

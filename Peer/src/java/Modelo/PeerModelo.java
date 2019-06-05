@@ -19,6 +19,7 @@ public class PeerModelo {
     
     private String ip;
     private List<Arquivo> arquivos;
+    private boolean disponibilidade;
     
     public PeerModelo(){}
     
@@ -41,6 +42,22 @@ public class PeerModelo {
         }
         
         return listaArquivos;
+    }
+    
+    public void setIp(String ip){
+        this.ip = ip;
+    }
+    
+    public String getIp(){
+        return this.ip;
+    }
+    
+    public void setDisponibilidade(boolean disponibilidade){
+        this.disponibilidade = disponibilidade;
+    }
+    
+    public boolean getDisponibilidade(){
+        return disponibilidade;
     }
     
 }

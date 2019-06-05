@@ -1,7 +1,10 @@
 package aplicacao;
 
+import Controle.Conexao;
 import Controle.TorrentFilesManage;
 import Modelo.Arquivo;
+import Modelo.Listas;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
@@ -27,11 +30,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
     
     public static List<Arquivo> listaArquivos;
     
+    
     public TelaPrincipal() throws IOException, UnknownHostException, NoSuchAlgorithmException {
         initComponents();
         DesenharPainelCentral();
-        listaArquivos = new TorrentFilesManage().participar();
-        //participar();
+        new Listas();
+        listaArquivos = new TorrentFilesManage().participar(Conexao.IP_TRACKER);
+        String url = "http://localhost:8080/Peer/webresources/peer/salvar/";
+        new Conexao().conectaWebService(url, new Gson().toJson(listaArquivos), "POST");
     }
 
     /**
@@ -87,7 +93,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Agency FB", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("T H O R . R E N T");
+        jLabel1.setText("T H O R . E N T");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -165,7 +171,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }else{
             painelCentral.removeAll();
             painelCentral.add(telaLista);
+            telaLista.arquivos = listaArquivos;
             painelCentral.revalidate();
+            telaLista.telaLog = telaLog;
             telaLista.setVisible(true);
             telaLog.setVisible(false);
             exibirConsole.setText("Exibir console");
@@ -184,7 +192,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Metal".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
