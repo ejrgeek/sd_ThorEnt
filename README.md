@@ -6,7 +6,7 @@ O tracker recebe solitações de Peers que querem entrar na rede, eles informa s
 O Peer então é capaz de fazer download dos arquivos de outros Peers conectados, através do hash do array de bytes que é gerado do arquivo original. Esse array é fragmentado em partes menores e cada peer que contem o arquivo original manda um fragmento para o peer requerente.
 No fim, os fragmentos são inseridos em um array vazio do peer requerente e gera um hash para ser verificado com hash recido do tracker. Se o hash forem iguais então um arquivo é criado usado o array baixado.
 
-#Sobre o Projeto
+# Sobre o Projeto
 O projeto consiste no desenvolvimento de uma rede p2p, onde foram desenvolvidos um serviço web para o tracker e aplicação e serviço web para peers.
 
 O Tracker tem a função de guardar as informações de todos os arquivos disponíveis nessa rede, sendo elas o hash do arquivo gerado através de seu vetor de bytes, o nome do arquivo, o tamanho do arquivo, o tamanho do seu vetor de bytes que será usado na métrica de divisão de pacotes e inclusive a informação de todos os Peers que hospedam aquele arquivo e disponibilizam para download.
