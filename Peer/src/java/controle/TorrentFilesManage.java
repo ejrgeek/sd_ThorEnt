@@ -6,7 +6,7 @@
 package Controle;
 
 import Modelo.Arquivo;
-import Modelo.ArquivoDownload;
+import Modelo.DownloadFileModel;
 import Modelo.DownloadFile;
 import Modelo.Listas;
 import Modelo.PeerModelo;

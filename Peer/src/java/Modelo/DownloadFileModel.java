@@ -9,19 +9,19 @@ package Modelo;
  *
  * @author Helbert Monteiro
  */
-public class ArquivoDownload{
+public class DownloadFileModel {
     private String hash;
     private byte[] vetor;
     private String nome;
 
-    public ArquivoDownload(String hash, byte[] vetor){
+    public DownloadFileModel(String hash, byte[] vetor){
         this.hash = hash;
         this.vetor = vetor;
     }
     
     
 
-    public ArquivoDownload(){}
+    public DownloadFileModel(){}
 
     /**
      * @return the hash
